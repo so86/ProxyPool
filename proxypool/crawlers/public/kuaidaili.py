@@ -13,7 +13,8 @@ class KuaidailiCrawler(BaseCrawler):
     kuaidaili crawler, https://www.kuaidaili.com/
     """
     urls = [BASE_URL.format(page=page) for page in range(1, MAX_PAGE + 1)]
-    
+    ignore = True
+
     def parse(self, html):
         """
         parse html file to get proxies

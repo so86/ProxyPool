@@ -11,6 +11,7 @@ class Data5UCrawler(BaseCrawler):
     data5u crawler, http://www.data5u.com
     """
     urls = [BASE_URL]
+    ignore = True
     
     headers = {
         'User-Agent': 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36'

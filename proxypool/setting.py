@@ -50,15 +50,15 @@ PROXY_NUMBER_MAX = 50000
 PROXY_NUMBER_MIN = 0
 
 # definition of tester cycle, it will test every CYCLE_TESTER second
-CYCLE_TESTER = env.int('CYCLE_TESTER', 20)
+CYCLE_TESTER = env.int('CYCLE_TESTER', 180)
 # definition of getter cycle, it will get proxy every CYCLE_GETTER second
-CYCLE_GETTER = env.int('CYCLE_GETTER', 100)
+CYCLE_GETTER = env.int('CYCLE_GETTER', 600)
 GET_TIMEOUT = env.int('GET_TIMEOUT', 10)
 
 # definition of tester
-TEST_URL = env.str('TEST_URL', 'http://www.baidu.com')
-TEST_TIMEOUT = env.int('TEST_TIMEOUT', 10)
-TEST_BATCH = env.int('TEST_BATCH', 20)
+TEST_URL = env.str('TEST_URL', 'http://www.rakuten.co.jp/')
+TEST_TIMEOUT = env.int('TEST_TIMEOUT', 15)
+TEST_BATCH = env.int('TEST_BATCH', 1)
 # only save anonymous proxy
 TEST_ANONYMOUS = True
 # TEST_HEADERS = env.json('TEST_HEADERS', {
@@ -72,9 +72,9 @@ API_PORT = env.int('API_PORT', 5555)
 API_THREADED = env.bool('API_THREADED', True)
 
 # flags of enable
-ENABLE_TESTER = env.bool('ENABLE_TESTER', True)
+ENABLE_TESTER = env.bool('ENABLE_TESTER', False)
 ENABLE_GETTER = env.bool('ENABLE_GETTER', True)
-ENABLE_SERVER = env.bool('ENABLE_SERVER', True)
+ENABLE_SERVER = env.bool('ENABLE_SERVER', False)
 
 logger.add(env.str('LOG_RUNTIME_FILE', join(LOG_DIR, 'runtime.log')), level='DEBUG', rotation='1 week', retention='20 days')
 logger.add(env.str('LOG_ERROR_FILE', join(LOG_DIR, 'error.log')), level='ERROR', rotation='1 week')

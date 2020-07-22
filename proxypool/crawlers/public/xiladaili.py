@@ -11,6 +11,7 @@ class XiladailiCrawler(BaseCrawler):
     xiladaili crawler, http://www.xiladaili.com/
     """
     urls = ["http://www.xiladaili.com/"]
+    ignore = True
 
     def parse(self, html):
         """

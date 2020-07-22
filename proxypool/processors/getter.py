@@ -35,6 +35,7 @@ class Getter(object):
         for crawler in self.crawlers:
             logger.info(f'crawler {crawler} to get proxy')
             for proxy in crawler.crawl():
+                print(proxy.string())
                 self.redis.add(proxy)
 
 

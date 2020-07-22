@@ -87,9 +87,12 @@ class Scheduler():
             server_process.terminate()
         finally:
             # must call join method before calling is_alive
-            tester_process.join()
-            getter_process.join()
-            server_process.join()
+            if ENABLE_TESTER:
+                tester_process.join()
+            if ENABLE_GETTER:
+                getter_process.join()
+            if ENABLE_SERVER:
+                server_process.join()
             logger.info(f'tester is {"alive" if tester_process.is_alive() else "dead"}')
             logger.info(f'getter is {"alive" if getter_process.is_alive() else "dead"}')
             logger.info(f'server is {"alive" if server_process.is_alive() else "dead"}')
