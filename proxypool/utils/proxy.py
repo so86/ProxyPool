@@ -1,10 +1,15 @@
 from proxypool.schemas import Proxy
-
+import re
 
 def is_valid_proxy(data):
     if data.__contains__(':'):
-        ip = data.split(':')[0]
-        port = data.split(':')[1]
+        pattern = re.compile(
+            r'((?P<username>\S*?)\:(?P<password>\S*?)@)?(?P<ip>[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3})\:(?P<port>\d*)')
+        match = re.search(pattern, data)
+        username = match.groupdict()['username']
+        password = match.groupdict()['password']
+        ip = match.groupdict()['ip']
+        port = match.groupdict()['port']
         return is_ip_valid(ip) and is_port_valid(port)
     else:
         return is_ip_valid(data)
@@ -42,9 +47,21 @@ def convert_proxy_or_proxies(data):
             # skip invalid item
             item = item.strip()
             if not is_valid_proxy(item): continue
-            host, port = item.split(':')
-            result.append(Proxy(host=host, port=int(port)))
+            pattern = re.compile(
+                r'((?P<username>\S*?)\:(?P<password>\S*?)@)?(?P<ip>[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3})\:(?P<port>\d*)')
+            match = re.search(pattern, item)
+            username = match.groupdict()['username']
+            password = match.groupdict()['password']
+            ip = match.groupdict()['ip']
+            port = match.groupdict()['port']
+            result.append(Proxy(host=ip, port=int(port), username=username, password=password))
         return result
     if isinstance(data, str) and is_valid_proxy(data):
-        host, port = data.split(':')
-        return Proxy(host=host, port=int(port))
+        pattern = re.compile(
+            r'((?P<username>\S*?)\:(?P<password>\S*?)@)?(?P<ip>[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3})\:(?P<port>\d*)')
+        match = re.search(pattern, data)
+        username = match.groupdict()['username']
+        password = match.groupdict()['password']
+        ip = match.groupdict()['ip']
+        port = match.groupdict()['port']
+        return Proxy(host=ip, port=int(port), username=username, password=password)

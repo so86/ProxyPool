@@ -34,7 +34,10 @@ def get_proxy():
     :return: get a random proxy
     """
     conn = get_conn()
-    return conn.random().string()
+    randone = conn.random()
+    if randone:
+        return randone.string()
+    return ""
 
 
 @app.route('/count')

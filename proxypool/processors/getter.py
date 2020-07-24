@@ -3,6 +3,8 @@ from proxypool.storages.redis import RedisClient
 from proxypool.setting import PROXY_NUMBER_MAX
 from proxypool.crawlers import __all__ as crawlers_cls
 import re
+from proxypool.schemas.proxy import Proxy
+
 
 class Getter(object):
     """
@@ -32,14 +34,23 @@ class Getter(object):
         """
         if self.is_full():
             return
-        with open('staticproxy.txt', 'r') as fh:
+        proxyfile = "staticproxy.txt"
+        with open(proxyfile, 'r') as fh:
             proxylines = fh.readlines()
+        logger.info(f'read {proxyfile}')
         for line in proxylines:
             if line.strip() != "" and not line.startswith("#"):
                 line = line.replace("\r\n", "").replace("\n", "")
-                ##match = re.match(r'(?P<user>\S*?)\:(?P<password>\S*?)@(?P<ip>\S*?):(?P<port>\S*?)', line)
-                match = re.search(r'[\S]*?\:', line)
-                print(match.string)
+                pattern = re.compile(r'((?P<username>\S*?)\:(?P<password>\S*?)@)?(?P<ip>[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3})\:(?P<port>\d*)')
+                match = re.search(pattern, line)
+                if match:
+                    username = match.groupdict()['username']
+                    password = match.groupdict()['password']
+                    ip = match.groupdict()['ip']
+                    port = match.groupdict()['port']
+                    proxy = Proxy(host=ip, port=port, username=username, password=password)
+                    print(proxy.string())
+                    self.redis.add(proxy)
 
         for crawler in self.crawlers:
             logger.info(f'crawler {crawler} to get proxy')
