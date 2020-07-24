@@ -49,7 +49,7 @@ class Getter(object):
                     ip = match.groupdict()['ip']
                     port = match.groupdict()['port']
                     proxy = Proxy(host=ip, port=port, username=username, password=password)
-                    print(proxy.string())
+                    logger.info("getproxy " + proxy.string())
                     self.redis.add(proxy)
 
         for crawler in self.crawlers:
